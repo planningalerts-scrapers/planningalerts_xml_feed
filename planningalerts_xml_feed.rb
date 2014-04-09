@@ -17,13 +17,13 @@ module PlanningAlertsXMLFeed
         "date_scraped" => Date.today.to_s
       }
       # Optional fields
-      if app.at("date_received") && app.at("date_received").inner_text != ""
+      if app.at("date_received") && app.at("date_received").inner_text.strip != ""
         record["date_received"] = app.at("date_received").inner_text
       end
-      if app.at("on_notice_from") && app.at("on_notice_from").inner_text != ""
+      if app.at("on_notice_from") && app.at("on_notice_from").inner_text.strip != ""
         record["on_notice_from"] = app.at("on_notice_from").inner_text
       end
-      if app.at("on_notice_to") && app.at("on_notice_to").inner_text != ""
+      if app.at("on_notice_to") && app.at("on_notice_to").inner_text.strip != ""
         record["on_notice_to"] = app.at("on_notice_to").inner_text
       end
       p record if verbose
