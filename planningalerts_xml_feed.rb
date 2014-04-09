@@ -17,9 +17,15 @@ module PlanningAlertsXMLFeed
         "date_scraped" => Date.today.to_s
       }
       # Optional fields
-      record["date_received"] = app.at("date_received").inner_text if app.at("date_received")
-      record["on_notice_from"] = app.at("on_notice_from").inner_text if app.at("on_notice_from")
-      record["on_notice_to"] = app.at("on_notice_to").inner_text if app.at("on_notice_to")
+      if app.at("date_received") && app.at("date_received").inner_text != ""
+        record["date_received"] = app.at("date_received").inner_text
+      end
+      if app.at("on_notice_from") && app.at("on_notice_from").inner_text != ""
+        record["on_notice_from"] = app.at("on_notice_from").inner_text
+      end
+      if app.at("on_notice_to") && app.at("on_notice_to").inner_text != ""
+        record["on_notice_to"] = app.at("on_notice_to").inner_text
+      end
       p record if verbose
       if (ScraperWiki.select("* from data where `council_reference`='#{record['council_reference']}'").empty? rescue true)
         ScraperWiki.save_sqlite(['council_reference'], record)
