@@ -27,11 +27,7 @@ module PlanningAlertsXMLFeed
         record["on_notice_to"] = app.at("on_notice_to").inner_text
       end
       p record if verbose
-      if (ScraperWiki.select("* from data where `council_reference`='#{record['council_reference']}'").empty? rescue true)
-        ScraperWiki.save_sqlite(['council_reference'], record)
-      else
-        puts "Skipping already saved record " + record['council_reference'] if verbose
-      end
+      ScraperWiki.save_sqlite(['council_reference'], record)
     end
   end
 end
